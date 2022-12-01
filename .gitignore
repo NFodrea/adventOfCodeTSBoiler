@@ -1,0 +1,42 @@
+node_modules
+dist
+build
+.DS_Store
+.idea
+newrelic.js
+*.log
+.eslintcache
+.npmrc
+yarn.lock
+package-lock.json
+
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+
+# Eclipse project files
+.classpath
+.project
+.settings/
+
+# Java class files
+*.class
+
+# Local test files
+HTTPCompomentsBISTrustStore
+automation/tests/test-output
+/test-output
+/testResults
+
+# Emacs Stuffs
+.tern-port
+*.org
+automation/tests/dependency-reduced-pom.xml
+
+# VSCode files
+.vscode/
+
+# Unit Test Coverage
+.nyc_output/
+coverage/

@@ -1,0 +1,93 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "project": "./tsconfig.eslint.json"
+    },
+    "plugins": ["@typescript-eslint", "react-hooks"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+        "no-restricted-imports": [
+            "error",
+            {
+                "patterns": [
+                    // Disallowed
+                    "./*",
+                    "../*"
+                ]
+            }
+        ],
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off",
+        // False-positive on overload syntax
+        "no-dupe-class-members": "off",
+        "no-unused-vars": "off",
+        "no-void": "error",
+        // "no-unused-vars": [
+        //     "error",
+        //     {
+        //         "args": "all",
+        //         // Ignore args with leading or trailing underscore
+        //         "argsIgnorePattern": "(^_)|(_$)"
+        //     }
+        // ],
+        // Replace no-constant-condition with no-unnecessary-condition
+        "no-constant-condition": "off",
+        "@typescript-eslint/no-unnecessary-condition": [
+            "warn",
+            { "allowConstantLoopConditions": true }
+        ],
+
+        // Allow `constructor(public propName) {}` shorthand
+        "no-empty-function": ["warn", { "allow": ["constructors"] }],
+
+        "camelcase": "off",
+        "object-shorthand": "warn",
+        "no-else-return": "warn",
+        "prefer-spread": "warn", //Use func(...array), not func.apply(this, array);
+        "prefer-rest-params": "warn", //Use `function (...args)`, not `arguments`
+        "no-return-assign": "warn",
+        "no-unneeded-ternary": "warn",
+        "no-unused-expressions": [
+            "error",
+            {
+                "allowTernary": true,
+                "allowShortCircuit": true
+            }
+        ],
+        "@typescript-eslint/naming-convention": [
+            "warn",
+            // could add { selector: default, format: Pascal, camel, UPPER }
+            //   to ban snake_case, but double underscores aren't support right now
+            // https://github.com/typescript-eslint/typescript-eslint/issues/1712
+            {
+                "selector": "typeLike",
+                "format": ["PascalCase"],
+                "leadingUnderscore": "allow",
+                "trailingUnderscore": "allow"
+            }
+        ],
+
+        // TS only rules
+        "@typescript-eslint/adjacent-overload-signatures": "warn",
+        "@typescript-eslint/array-type": [
+            "warn",
+            { "default": "array-simple" }
+        ],
+        "@typescript-eslint/unified-signatures": "error",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "react/prop-types": "off"
+    },
+    "settings": {
+        "react": {
+            "pragma": "React",
+            "version": "detect"
+        }
+    }
+}
