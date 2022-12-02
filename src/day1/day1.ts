@@ -21,7 +21,6 @@ async function totalCalories() {
 
 // Start Part 2
 
-// a function that returns the 3 largest numbers from the total calories function
 async function getThreeLargest() {
     const data = await totalCalories();
     const sortedData = data.sort((a, b) => b - a);
@@ -32,6 +31,7 @@ async function getThreeLargest() {
     console.log("total", total);
     return total;
 }
+
 // End Part 2
 
 export const day1 = async () => {

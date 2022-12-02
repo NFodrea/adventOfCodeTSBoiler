@@ -1,4 +1,4 @@
-import { splitData } from "../utils/split";
+import { day2SplitData, splitData } from "../utils/split";
 
 // First Column is opponents move
 // A = Rock
@@ -15,6 +15,7 @@ import { splitData } from "../utils/split";
 // B Y Paper
 // C Z Scissors
 
+//  What -> (wins against what)
 // A -> Z
 // A == X
 // B -> X
@@ -23,25 +24,6 @@ import { splitData } from "../utils/split";
 // C == Z
 
 // total score = the sum of your scores for each round
-
-// Selected shape points
-// Rock = 1 point
-// Paper = 2 points
-// Scissors = 3 points
-
-// round outcome points
-// 0 lost
-// 3 draw
-// 6 win
-
-// Small Data Reference
-// A Y (Rock, Paper) =  (2 paper 6 win) 8 points
-// B X (Paper, Rock) = (1 rock 0 lost) 1 points
-// C Z (Scissors, Scissors) = (3 scissors 3 tie) 6 points
-
-// A function that takes 2 inputs and returns the points for that round
-
-// Find Total Score
 
 // Start Part 1
 async function getFormattedData() {
@@ -97,10 +79,98 @@ async function getTotal() {
 // End Part 1
 
 // Start Part 2
+async function getFormattedData2() {
+    const data = await day2SplitData("src/day2/data.txt");
+    console.log(data);
+    return data;
+}
+
+const WLDMap = {
+    win: {
+        A: "Y",
+        B: "Z",
+        C: "X",
+    },
+    lose: {
+        A: "Z",
+        B: "X",
+        C: "Y",
+    },
+};
+
+const opponentMap = {
+    A: "X",
+    B: "Y",
+    C: "Z",
+};
+
+// X lose
+// Y draw
+// Z win
+
+const pointsMapping = [
+    ["X", 1],
+    ["Y", 2],
+    ["Z", 3],
+];
+
+async function determineMoves(): Promise<string[][]> {
+    const data = await getFormattedData2();
+    return data.map(moves => {
+        if (moves[1] === "Z") {
+            return [moves[0], WLDMap.win[moves[0]]];
+        } else if (moves[1] === "X") {
+            return [moves[0], WLDMap.lose[moves[0]]];
+        }
+        return [moves[0], opponentMap[moves[0]]];
+    });
+}
+
+async function compareMoves2(data: string[][]) {
+    const output = data.map(move => {
+        if (move[0] === "A" && move[1] === "X") {
+            return 4;
+        }
+        if (move[0] === "B" && move[1] === "Y") {
+            return 5;
+        }
+        if (move[0] === "C" && move[1] === "Z") {
+            return 6;
+        }
+        if (move[0] === "A" && move[1] === "Y") {
+            return 8;
+        }
+        if (move[0] === "A" && move[1] === "Z") {
+            return 3;
+        }
+        if (move[0] === "B" && move[1] === "X") {
+            return 1;
+        }
+        if (move[0] === "B" && move[1] === "Z") {
+            return 9;
+        }
+        if (move[0] === "C" && move[1] === "X") {
+            return 7;
+        }
+        if (move[0] === "C" && move[1] === "Y") {
+            return 2;
+        }
+        console.log("move", move);
+    });
+    return output;
+}
+
+async function getTotal2(data: number[]) {
+    const total = data.reduce((a, b) => a + b, 0);
+    console.log("total", total);
+    return total;
+}
 
 // End Part 2
 
 export const day2 = async () => {
-    console.log("Day 2 Part 1");
-    getTotal();
+    const data = await determineMoves();
+    const comparedData = await compareMoves2(data);
+    const hold = getTotal2(comparedData);
+    console.log(hold);
 };
