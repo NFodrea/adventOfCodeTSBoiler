@@ -1,34 +1,42 @@
 import { splitData } from "../utils/split";
+// Start Part 1
+async function getFormattedData() {
+    const data = await splitData("src/day1/data.txt");
+    return data;
+}
 
-// 1 line is 1 item
-// blank line is new elf
+async function convertToNumbers() {
+    const data = await getFormattedData();
+    return data.map(x => x.map(y => parseInt(y)));
+}
 
-// For example, suppose the Elves finish writing their items' Calories and end up with the following list:
+async function totalCalories() {
+    const data = await convertToNumbers();
+    const totalData = data.map(x => x.reduce((a, b) => a + b, 0));
+    console.log(totalData);
+    return totalData;
+}
 
-// 1000
-// 2000
-// 3000
+// End Part 1
 
-// 4000
+// Start Part 2
 
-// 5000
-// 6000
+// a function that returns the 3 largest numbers from the total calories function
+async function getThreeLargest() {
+    const data = await totalCalories();
+    const sortedData = data.sort((a, b) => b - a);
+    const threeLargest = sortedData.slice(0, 3);
+    console.log(threeLargest);
+    // add threeLargest together
+    const total = threeLargest.reduce((a, b) => a + b, 0);
+    console.log("total", total);
+    return total;
+}
+// End Part 2
 
-// 7000
-// 8000
-// 9000
-
-// 10000
-
-// Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
-
-// const countCalories = () => {
-//     let oldValue = 0;
-//     console.log(splitData("src/day1/smallData.txt"));
-
-// };
-
-export const day1 = () => {
-    console.log("Day 1");
-    console.log(splitData("src/day1/smallData.txt"));
+export const day1 = async () => {
+    const data = await totalCalories();
+    console.log(Math.max(...data));
+    console.log("Part 2");
+    getThreeLargest();
 };

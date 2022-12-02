@@ -7,10 +7,10 @@ export async function readFile(filePath: string) {
 export async function splitData(filePath: string) {
     try {
         const data = await readFile(filePath);
-        data.split("\n").map(x => x.split("\n\n"));
+        const splitData = data.split("\n\n").map(x => x.split("\n"));
         // data.trim();
-        console.log(data);
-        return data;
+        // console.log(splitData);
+        return splitData;
     } catch (err) {
         throw new Error(err);
     }
