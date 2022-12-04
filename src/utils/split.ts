@@ -28,3 +28,13 @@ export async function day2SplitData(filePath: string) {
         throw new Error(err);
     }
 }
+
+export async function day3SplitData(filePath: string) {
+    try {
+        const data = await readFile(filePath);
+        const splitData = data.split("\n");
+        return splitData;
+    } catch (err) {
+        throw new Error(err);
+    }
+}
