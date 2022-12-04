@@ -25,9 +25,7 @@ import { day2SplitData, day3SplitData } from "../utils/split";
 // What is the sum of the priorities of those item types?
 
 async function getFormattedData() {
-    const data = await day2SplitData("src/day3/data.txt");
-    data;
-    return data;
+    return await day2SplitData("src/day3/data.txt");
 }
 
 function stringMatch(str1: string, str2: string) {

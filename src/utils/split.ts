@@ -38,3 +38,17 @@ export async function day3SplitData(filePath: string) {
         throw new Error(err);
     }
 }
+
+export async function day4SplitData(filePath: string) {
+    try {
+        const data = await readFile(filePath);
+        const splitData = data.split("\n");
+        const roomPairs = splitData.map(pair => {
+            // '2-5,15-90'
+            return pair.split(",");
+        });
+        return roomPairs;
+    } catch (err) {
+        throw new Error(err);
+    }
+}
