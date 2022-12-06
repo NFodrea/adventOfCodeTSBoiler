@@ -52,3 +52,65 @@ export async function day4SplitData(filePath: string) {
         throw new Error(err);
     }
 }
+
+export type MoveData = {
+    quantity: number;
+    from: number;
+    to: number;
+};
+
+export async function day5Split(
+    filePath: string,
+): Promise<[MoveData[], string[][]]> {
+    try {
+        const data = await readFile(filePath);
+        const splitData = data.split("\n");
+        let stackStrings = [];
+        const moveStrings = [];
+        const crateStacks = [];
+        splitData.forEach(s => {
+            if (s.startsWith("move")) {
+                moveStrings.push(s);
+            } else if (s.match(/\[[A-Z]\]/)) {
+                stackStrings.push(s);
+            }
+        });
+        stackStrings = stackStrings.map(stackString => {
+            const crates = stackString.match(/(\[[A-Z]\])|\s\s\s\s/g);
+            const crateLetters = [];
+            for (let crate of crates) {
+                const crateLetterMatch = crate.match(/\[([A-Z])\]/);
+                const crateLetter =
+                    crateLetterMatch && crateLetterMatch[1]
+                        ? crateLetterMatch[1]
+                        : null;
+                crateLetters.push(crateLetter);
+            }
+            return crateLetters;
+        });
+        stackStrings.reverse().forEach((crates, stackStringsIndex) => {
+            crates.forEach((crate, index) => {
+                // console.log(crate, stackStringsIndex, index);
+                if (crate === null) return;
+                if (crateStacks[index] === undefined) {
+                    crateStacks[index] = [];
+                }
+                crateStacks[index].push(crate);
+            });
+        });
+        const moveData: MoveData[] = moveStrings.map(moveString => {
+            const data = moveString.match(
+                /move\s*(\d*)\s*from\s*(\d*)\s*to\s*(\d*)\s*/,
+            );
+            return {
+                quantity: parseInt(data[1]),
+                from: data[2] - 1,
+                to: data[3] - 1,
+            };
+        });
+        // console.log(crateStacks);
+        return [moveData, crateStacks];
+    } catch (err) {
+        throw new Error(err);
+    }
+}
